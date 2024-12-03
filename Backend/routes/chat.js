@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import ChatRoom from '../components/ChatRoom';
+const express = require('express');
+const authMiddleware = require('../middleware/authMiddleware');
+const router = express.Router();
 
-const Chat = () => {
-    const [roomId, setRoomId] = useState('');
+router.get('/protected', authMiddleware, (req, res) => {
+    res.json({ message: 'Access granted', userId: req.userId });
+});
 
-    return (
-        <div>
-            <input
-                type="text"
-                placeholder="Enter Room ID"
-                value={roomId}
-                onChange={(e) => setRoomId(e.target.value)}
-            />
-            {roomId && <ChatRoom roomId={roomId} />}
-        </div>
-    );
-};
-
-export default Chat;
+module.exports = router;
